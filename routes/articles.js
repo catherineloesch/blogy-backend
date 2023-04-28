@@ -15,13 +15,6 @@ const router = express.Router()
  * 
  */
 
-/**
- * Action: SHOW
- * Method: GET
- * URI: /api/articles/id_number
- * Description: Get a Article by Article ID
- */
-
 router.get('/api/articles', (req, res) => {
     Article.find()
     //Return all Articles as an array
@@ -33,6 +26,36 @@ router.get('/api/articles', (req, res) => {
         res.status(500).json({error: error})
     })
 })
+
+/**
+ * Action: SHOW
+ * Method: GET
+ * URI: /api/articles/id_number
+ * Description: Get a Article by Article ID
+ */
+
+router.get('/api/articles/:id', (req, res) => {
+    Article.findById(req.params.id)
+    .then((article) => {
+        if (article) {
+            res.json({article: article})
+        } else {
+            //if we couldn't find a document with the matching ID
+            res.status(404).json({
+                error: {
+                    name: 'DocumentNotFound',
+                    message: "The provided ID doesn't match any documents"
+                }
+            })
+        }
+    })
+      //Catch any errors that might occur
+    .catch(error => {
+        res.status(500).json({error: error})
+    })
+})
+
+
 
 /**
  * Action: DESTROY
