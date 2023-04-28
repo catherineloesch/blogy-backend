@@ -23,6 +23,15 @@ const app = express()
 const port = process.env.PORT || 5000; //5000= fallback option, adds flexibility
 
 /**
+ * Middleware
+ * Add `bodyParser` middleware which will parse JSON
+ * requests into JS  object before it reaches the route files
+ * the method `.use`sets up middleware for Express apps.
+ */
+
+app.use(express.json())
+
+/**
  * Routes
  * 
  * Mount the imported Routers
